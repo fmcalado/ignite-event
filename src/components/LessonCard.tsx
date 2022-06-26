@@ -3,21 +3,22 @@ import { CheckCircle, Lock } from "phosphor-react";
 import { isPast, format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 
-import { Lesson } from "../lib/types/lesson";
+interface LessonCardProps {
+  lesson: {
+    title: string;
+    slug: string;
+    availableAt: Date;
+    lessonType: "live" | "class";
+  };
+}
 
-const LessonCard: React.FC<Lesson> = ({
-  title,
-  slug,
-  availableAt: strAvailable,
-  lessonType,
-}) => {
-  const availableAt = new Date(strAvailable);
-  const lessonIsAvailable = isPast(availableAt);
+const LessonCard: React.FC<LessonCardProps> = ({ lesson }) => {
+  const lessonIsAvailable = isPast(lesson.availableAt);
 
   return (
-    <a href={`/lessons/${slug}`}>
+    <a href={`/lessons/${lesson.slug}`}>
       <span className="text-gray-300">
-        {format(availableAt, "EEEE' • 'd' de 'MMMM' • 'k'h'mm", {
+        {format(lesson.availableAt, "EEEE' • 'd' de 'MMMM' • 'k'h'mm", {
           locale: ptBR,
         })}
       </span>
@@ -34,11 +35,11 @@ const LessonCard: React.FC<Lesson> = ({
             </span>
           )}
           <span className="py-[2px] px-2 text-xs rounded text-white font-bold border border-green-300">
-            {lessonType === "live" ? "AO VIVO" : "AULA PRÁTICA"}
+            {lesson.lessonType === "live" ? "AO VIVO" : "AULA PRÁTICA"}
           </span>
         </header>
 
-        <strong className="text-gray-200">{title}</strong>
+        <strong className="text-gray-200">{lesson.title}</strong>
       </div>
     </a>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { gql, useQuery } from "@apollo/client";
 
 import LessonCard from "./LessonCard";
-import { Lesson } from "../lib/types/lesson";
+import { LessonResponse } from "../lib/types/lesson";
 const GET_LESSONS_QUERY = gql`
   query {
     lessons(orderBy: availableAt_ASC, stage: PUBLISHED) {
@@ -16,7 +16,7 @@ const GET_LESSONS_QUERY = gql`
 `;
 
 const SideBar: React.FC = () => {
-  const { data, loading } = useQuery<{ lessons: Lesson[] }>(GET_LESSONS_QUERY);
+  const { data, loading } = useQuery<LessonResponse>(GET_LESSONS_QUERY);
 
   return (
     <aside className="w-[348px] p-6 bg-gray-700 border-l border-gray-600">
@@ -27,14 +27,10 @@ const SideBar: React.FC = () => {
       {/*TODO: IMPLEMENT SKELETON */}
 
       <div className="flex flex-col gap-8">
-        {data?.lessons.map(({ id, title, slug, availableAt, lessonType }) => (
+        {data?.lessons.map(({ id, availableAt, ...rest }) => (
           <LessonCard
-            id={id}
             key={id}
-            title={title}
-            slug={slug}
-            availableAt={availableAt}
-            lessonType={lessonType}
+            lesson={{ availableAt: new Date(availableAt), ...rest }}
           />
         ))}
       </div>
