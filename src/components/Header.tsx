@@ -1,6 +1,6 @@
 import React from "react";
 
-import { IgniteLogo } from "./IgniteLogo";
+import IgniteLogo from "./IgniteLogo";
 
 const Header: React.FC = () => {
   return (
