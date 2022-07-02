@@ -1,12 +1,18 @@
-import { CaretRight, DiscordLogo, FileArrowDown, ImageSquare, Lightning } from 'phosphor-react';
 import React from 'react';
+import { DefaultUi, Player, Youtube } from '@vime/react';
+import { CaretRight, DiscordLogo, FileArrowDown, ImageSquare, Lightning } from 'phosphor-react';
+
+import '@vime/core/themes/default.css'
 
 const VideoFrame: React.FC = () => {
   return (
     <div className='flex-1'>
       <div className='flex justify-center bg-black'>
-        <div className='h-full w-full max-w-[1100px] max-h-[60vh] aspect-video border'>
-          video
+        <div className='h-full w-full max-w-[1100px] max-h-[60vh] aspect-video'>
+          <Player>
+            <Youtube videoId='IAV1JWnBErQ'/>
+            <DefaultUi />
+          </Player>
         </div>
       </div>
 
