@@ -1,32 +1,23 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
 
 import LessonCard from "./LessonCard";
 import { LessonResponse } from "../lib/types/lesson";
-const GET_LESSONS_QUERY = gql`
-  query {
-    lessons(orderBy: availableAt_ASC, stage: PUBLISHED) {
-      id
-      lessonType
-      availableAt
-      title
-      slug
-    }
-  }
-`;
 
-const SideBar: React.FC = () => {
-  const { data, loading } = useQuery<LessonResponse>(GET_LESSONS_QUERY);
+interface SideBarProps {
+  lessonsData: LessonResponse | undefined;
+  loadingLessons: boolean;
+}
 
+const SideBar: React.FC<SideBarProps> = ({ lessonsData, loadingLessons }) => {
   const renderLessons = () => {
     /*TODO: IMPLEMENT SKELETON */
-    if (loading) return <h1>Carregando...</h1>;
+    if (loadingLessons) return <h1>Carregando...</h1>;
 
     /*TODO: SHOW EMPTY DATA VIEW */
-    if (data!.lessons.length <= 0 || data === undefined )
+    if (lessonsData!.lessons.length <= 0 || lessonsData === undefined)
       return <h1>Nada por aqui</h1>;
 
-    return data.lessons.map(({ id, availableAt, ...rest }) => (
+    return lessonsData.lessons.map(({ id, availableAt, ...rest }) => (
       <LessonCard
         key={id}
         lesson={{ availableAt: new Date(availableAt), ...rest }}
